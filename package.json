@@ -1,0 +1,23 @@
+{
+  "name": "networth-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guild-Leaderboard/networth-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Guild-Leaderboard/networth-api/issues"
+  },
+  "homepage": "https://github.com/Guild-Leaderboard/networth-api#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "skyhelper-networth": "^1.0.10"
+  }
+}
