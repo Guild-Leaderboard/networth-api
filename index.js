@@ -2,6 +2,8 @@ const { getNetworth, getPrices } = require('skyhelper-networth');
 const express = require('express')
 
 const app = express()
+const accessKey = "TIMNOOT_IS_AWESOME";
+var fs = require('fs');
 
 app.use(
     express.urlencoded({
@@ -9,15 +11,16 @@ app.use(
     })
 );
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb' }));
 
-const port = 3000
+const port = 8880
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.json('Hello World!')
 })
 
-let prices = getPrices();
+var prices = getPrices();
 
 setInterval(async () => {
     console.log("Getting prices")
@@ -29,11 +32,22 @@ setInterval(async () => {
 // Weird altpapier didn't do this in his package behind the scenes
 // He said he never thought of it smh.
 
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
 app.get('/networth', async function (req, res) {
-    let options = req.body.options;
-    options.prices = prices;
+    if (req.headers.authorization !== accessKey) {
+        res.status(401).json("Invalid access key");
+        return;
+    }
+    let options = req.body.options || {};
+    if (isEmpty(prices)) {
+        prices = await getPrices();
+    }
+    options.prices = prices
     const networth = await getNetworth(req.body.profileData, req.body.bankBalance, options);
-    res.send(networth)
+    res.json(networth)
 })
 
 app.listen(port, () => {
