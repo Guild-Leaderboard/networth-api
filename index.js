@@ -37,6 +37,7 @@ function isEmpty(obj) {
 }
 
 app.get('/networth', async function (req, res) {
+    console.log(req.originalUrl);
     if (req.headers.authorization !== accessKey) {
         res.status(401).json("Invalid access key");
         return;
